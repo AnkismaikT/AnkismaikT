@@ -6,28 +6,18 @@ import { Button } from '@/components/ui/button';
 import { 
   CreditCard, 
   TrendingUp, 
-  TrendingDown, 
   AlertTriangle, 
   Target, 
   Brain, 
   PiggyBank, 
   Shield,
-  Zap,
-  BarChart3,
-  DollarSign,
-  Wallet,
-  Plus,
-  ArrowUpRight,
-  ArrowDownRight
+  Plus
 } from 'lucide-react';
-import { formatCurrency, formatPercentage, CURRENCIES } from '@/lib/utils';
-import { motion } from 'framer-motion';
 
 // Mock data for demonstration
 const mockUser = {
   name: 'Arjun Kumar',
   email: 'arjun@example.com',
-  currency: CURRENCIES[0], // INR
   creditScore: 750,
   monthlyIncome: 85000,
 };
@@ -42,31 +32,6 @@ const mockData = {
   portfolioGrowth: 12.5,
   recentProfitSkim: 15750,
 };
-
-const mockCreditCards = [
-  {
-    id: '1',
-    bankName: 'HDFC Bank',
-    cardName: 'Regalia Gold',
-    lastFourDigits: '4521',
-    currentBalance: 75000,
-    creditLimit: 200000,
-    dueDate: new Date('2024-02-15'),
-    minPaymentDue: 3500,
-    status: 'active' as const,
-  },
-  {
-    id: '2',
-    bankName: 'SBI',
-    cardName: 'SimplyCLICK',
-    lastFourDigits: '8934',
-    currentBalance: 32000,
-    creditLimit: 150000,
-    dueDate: new Date('2024-02-20'),
-    minPaymentDue: 1800,
-    status: 'active' as const,
-  },
-];
 
 const mockRecommendations = [
   {
@@ -87,17 +52,7 @@ const mockRecommendations = [
     actionRequired: false,
     estimatedImpact: { savings: 15750 },
   },
-  {
-    id: '3',
-    type: 'goal',
-    priority: 'low' as const,
-    title: 'Emergency Fund Goal',
-    description: 'Consider increasing your emergency fund to 6 months of expenses (₹270,000).',
-    actionRequired: false,
-  },
 ];
-
-const MotionCard = motion(Card);
 
 export default function Dashboard() {
   const [mounted, setMounted] = useState(false);
@@ -108,35 +63,45 @@ export default function Dashboard() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-financial rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                   <Brain className="w-5 h-5 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-gradient">AnkismaikT AI</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  AnkismaikT AI
+                </h1>
               </div>
-              <span className="text-sm text-muted-foreground">Investment Bank</span>
+              <span className="text-sm text-gray-600">Investment Bank</span>
             </div>
             
             <div className="flex items-center space-x-4">
               <div className="text-right">
                 <p className="text-sm font-medium">{mockUser.name}</p>
-                <p className="text-xs text-muted-foreground">Credit Score: {mockUser.creditScore}</p>
+                <p className="text-xs text-gray-500">Credit Score: {mockUser.creditScore}</p>
               </div>
-              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-sm font-semibold text-primary">
+              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <span className="text-sm font-semibold text-blue-600">
                   {mockUser.name.split(' ').map(n => n[0]).join('')}
                 </span>
               </div>
@@ -147,112 +112,83 @@ export default function Dashboard() {
 
       <main className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
+        <div className="mb-8">
           <h2 className="text-3xl font-bold mb-2">Welcome back, {mockUser.name.split(' ')[0]}! 👋</h2>
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             Your AI financial advisor is ready to help you become debt-free and build wealth.
           </p>
-        </motion.div>
+        </div>
 
         {/* Key Metrics */}
-        <div className="metrics-grid mb-8">
-          <MotionCard
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className="card-gradient"
-          >
+        <div className="grid gap-6 md:grid-cols-4 mb-8">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Debt</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <CreditCard className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-loss">
-                {formatCurrency(mockData.totalDebt, mockUser.currency)}
+              <div className="text-2xl font-bold text-red-600">
+                {formatCurrency(mockData.totalDebt)}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-500">
                 {mockData.debtToIncomeRatio}% of income
               </p>
             </CardContent>
-          </MotionCard>
+          </Card>
 
-          <MotionCard
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            className="card-gradient"
-          >
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Investments</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <TrendingUp className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-profit">
-                {formatCurrency(mockData.totalInvestments, mockUser.currency)}
+              <div className="text-2xl font-bold text-green-600">
+                {formatCurrency(mockData.totalInvestments)}
               </div>
-              <p className="text-xs text-profit">
-                +{formatPercentage(mockData.portfolioGrowth)} this month
+              <p className="text-xs text-green-600">
+                +{mockData.portfolioGrowth}% this month
               </p>
             </CardContent>
-          </MotionCard>
+          </Card>
 
-          <MotionCard
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.3 }}
-            className="card-gradient"
-          >
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Credit Score</CardTitle>
-              <Shield className="h-4 w-4 text-muted-foreground" />
+              <Shield className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-info">
+              <div className="text-2xl font-bold text-blue-600">
                 {mockUser.creditScore}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-500">
                 Excellent • {mockData.creditUtilization}% utilization
               </p>
             </CardContent>
-          </MotionCard>
+          </Card>
 
-          <MotionCard
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
-            className="card-gradient"
-          >
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Profit Skimmed</CardTitle>
-              <PiggyBank className="h-4 w-4 text-muted-foreground" />
+              <PiggyBank className="h-4 w-4 text-gray-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-profit">
-                {formatCurrency(mockData.recentProfitSkim, mockUser.currency)}
+              <div className="text-2xl font-bold text-green-600">
+                {formatCurrency(mockData.recentProfitSkim)}
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-500">
                 Available to skim more
               </p>
             </CardContent>
-          </MotionCard>
+          </Card>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* AI Recommendations */}
           <div className="lg:col-span-2">
-            <MotionCard
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+            <Card>
               <CardHeader>
                 <div className="flex items-center space-x-2">
-                  <Brain className="w-5 h-5 text-primary" />
+                  <Brain className="w-5 h-5 text-blue-600" />
                   <CardTitle>AI Recommendations</CardTitle>
                 </div>
                 <CardDescription>
@@ -261,42 +197,38 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {mockRecommendations.map((rec, index) => (
-                  <motion.div
+                  <div
                     key={rec.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                     className={`p-4 rounded-lg border ${
-                      rec.priority === 'high' ? 'border-warning/20 bg-warning/5' :
-                      rec.priority === 'medium' ? 'border-info/20 bg-info/5' :
-                      'border-border bg-muted/20'
+                      rec.priority === 'high' ? 'border-orange-200 bg-orange-50' :
+                      rec.priority === 'medium' ? 'border-blue-200 bg-blue-50' :
+                      'border-gray-200 bg-gray-50'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          {rec.priority === 'high' && <AlertTriangle className="w-4 h-4 text-warning" />}
-                          {rec.priority === 'medium' && <Target className="w-4 h-4 text-info" />}
-                          {rec.priority === 'low' && <Zap className="w-4 h-4 text-muted-foreground" />}
+                          {rec.priority === 'high' && <AlertTriangle className="w-4 h-4 text-orange-500" />}
+                          {rec.priority === 'medium' && <Target className="w-4 h-4 text-blue-500" />}
                           <h4 className="font-semibold text-sm">{rec.title}</h4>
                           <span className={`text-xs px-2 py-1 rounded-full ${
-                            rec.priority === 'high' ? 'bg-warning/10 text-warning' :
-                            rec.priority === 'medium' ? 'bg-info/10 text-info' :
-                            'bg-muted text-muted-foreground'
+                            rec.priority === 'high' ? 'bg-orange-100 text-orange-700' :
+                            rec.priority === 'medium' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
                           }`}>
                             {rec.priority}
                           </span>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">{rec.description}</p>
+                        <p className="text-sm text-gray-600 mb-2">{rec.description}</p>
                         {rec.estimatedImpact && (
                           <div className="flex items-center space-x-4 text-xs">
                             {rec.estimatedImpact.savings && (
-                              <span className="text-profit">
-                                💰 Save {formatCurrency(rec.estimatedImpact.savings, mockUser.currency)}
+                              <span className="text-green-600">
+                                💰 Save {formatCurrency(rec.estimatedImpact.savings)}
                               </span>
                             )}
                             {rec.estimatedImpact.scoreImprovement && (
-                              <span className="text-info">
+                              <span className="text-blue-600">
                                 📈 +{rec.estimatedImpact.scoreImprovement} credit score
                               </span>
                             )}
@@ -309,19 +241,15 @@ export default function Dashboard() {
                         </Button>
                       )}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </CardContent>
-            </MotionCard>
+            </Card>
           </div>
 
           {/* Quick Actions */}
           <div className="space-y-6">
-            <MotionCard
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
+            <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>
@@ -343,98 +271,44 @@ export default function Dashboard() {
                   Set Financial Goal
                 </Button>
               </CardContent>
-            </MotionCard>
+            </Card>
 
-            {/* Credit Cards Overview */}
-            <MotionCard
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
+            {/* Financial Health Score */}
+            <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Credit Cards</CardTitle>
-                <CardDescription>
-                  {mockCreditCards.length} active cards
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Financial Health Score</CardTitle>
+                    <CardDescription>
+                      Based on your credit score and financial metrics
+                    </CardDescription>
+                  </div>
+                  <div className="text-4xl font-bold text-green-600">85/100</div>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {mockCreditCards.map((card, index) => (
-                  <motion.div
-                    key={card.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
-                    className="p-3 rounded-lg border border-border/50 bg-muted/20"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm">{card.bankName}</span>
-                      <span className="text-xs text-muted-foreground">•••• {card.lastFourDigits}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        {formatCurrency(card.currentBalance, mockUser.currency)} / {formatCurrency(card.creditLimit, mockUser.currency)}
-                      </span>
-                      <span className={`text-xs ${
-                        (card.currentBalance / card.creditLimit) > 0.7 ? 'text-warning' : 'text-muted-foreground'
-                      }`}>
-                        {Math.round((card.currentBalance / card.creditLimit) * 100)}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-muted rounded-full h-1.5 mt-2">
-                      <div 
-                        className={`h-1.5 rounded-full ${
-                          (card.currentBalance / card.creditLimit) > 0.7 ? 'bg-warning' : 
-                          (card.currentBalance / card.creditLimit) > 0.5 ? 'bg-info' : 'bg-profit'
-                        }`}
-                        style={{ width: `${(card.currentBalance / card.creditLimit) * 100}%` }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-600">{mockUser.creditScore}</div>
+                    <p className="text-sm text-gray-500">Credit Score</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">{mockData.debtToIncomeRatio}%</div>
+                    <p className="text-sm text-gray-500">Debt-to-Income</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">{mockData.creditUtilization}%</div>
+                    <p className="text-sm text-gray-500">Credit Utilization</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">{mockData.savingsRate}%</div>
+                    <p className="text-sm text-gray-500">Savings Rate</p>
+                  </div>
+                </div>
               </CardContent>
-            </MotionCard>
+            </Card>
           </div>
         </div>
-
-        {/* Financial Health Score */}
-        <MotionCard
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-8"
-        >
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Financial Health Score</CardTitle>
-                <CardDescription>
-                  Based on your credit score, debt ratio, and savings rate
-                </CardDescription>
-              </div>
-              <div className="text-4xl font-bold text-profit">85/100</div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-info">{mockUser.creditScore}</div>
-                <p className="text-sm text-muted-foreground">Credit Score</p>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-warning">{mockData.debtToIncomeRatio}%</div>
-                <p className="text-sm text-muted-foreground">Debt-to-Income</p>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-warning">{mockData.creditUtilization}%</div>
-                <p className="text-sm text-muted-foreground">Credit Utilization</p>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-profit">{mockData.savingsRate}%</div>
-                <p className="text-sm text-muted-foreground">Savings Rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </MotionCard>
       </main>
     </div>
   );

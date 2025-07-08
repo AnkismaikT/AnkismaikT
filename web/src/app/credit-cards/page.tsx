@@ -8,7 +8,6 @@ import {
   CreditCard, 
   Plus, 
   TrendingUp, 
-  TrendingDown, 
   AlertTriangle,
   Calendar,
   DollarSign,
@@ -116,7 +115,6 @@ const aiInsights = [
 export default function CreditCardsPage() {
   const [showBalances, setShowBalances] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   const getCardBrandStyle = (brand: string) => {
     switch (brand) {

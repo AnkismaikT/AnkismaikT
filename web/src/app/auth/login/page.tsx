@@ -50,7 +50,7 @@ export default function LoginPage() {
               
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Escape debt traps, build wealth intelligently, and secure your financial future 
-                with the world's most advanced AI financial advisor.
+                with the world&apos;s most advanced AI financial advisor.
               </p>
               
               <div className="grid gap-4">
@@ -141,7 +141,7 @@ export default function LoginPage() {
                 
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center space-x-2">
-                    <input type="checkbox" className="rounded border-border" />
+                    <input type="checkbox" className="rounded border-gray-300" />
                     <span className="text-muted-foreground">Remember me</span>
                   </label>
                   <a href="#" className="text-primary hover:underline">
@@ -161,7 +161,7 @@ export default function LoginPage() {
               
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-border" />
+                  <span className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
@@ -188,7 +188,7 @@ export default function LoginPage() {
               </div>
               
               <div className="text-center text-sm text-muted-foreground">
-                Don't have an account?{' '}
+                                 Don&apos;t have an account?{' '}
                 <a href="/auth/register" className="text-primary hover:underline font-medium">
                   Sign up for free
                 </a>
