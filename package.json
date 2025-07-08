@@ -1,0 +1,30 @@
+{
+  "name": "ankismaikt-ai-investment-bank",
+  "version": "1.0.0",
+  "description": "AI-powered financial platform for debt management, investment tracking, and wealth building",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "cd web && npm run dev",
+    "dev:api": "cd backend && npm run dev",
+    "build": "npm run build:web && npm run build:api",
+    "build:web": "cd web && npm run build",
+    "build:api": "cd backend && npm run build",
+    "install:all": "npm install && cd web && npm install && cd ../backend && npm install && cd ../mobile && npm install",
+    "mobile:ios": "cd mobile && npx react-native run-ios",
+    "mobile:android": "cd mobile && npx react-native run-android"
+  },
+  "keywords": [
+    "fintech",
+    "ai",
+    "investment",
+    "debt-management",
+    "financial-planning",
+    "wealth-building"
+  ],
+  "author": "AnkismaikT",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
