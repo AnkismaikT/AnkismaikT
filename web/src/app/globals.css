@@ -1,26 +1,306 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 231 98% 65%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 231 98% 65%;
+    --radius: 0.5rem;
+    
+    /* Financial specific variables */
+    --profit-color: 142 71% 45%;
+    --loss-color: 0 84% 60%;
+    --warning-color: 38 92% 50%;
+    --info-color: 217 91% 60%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 231 98% 65%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 231 98% 65%;
+    
+    /* Dark mode financial colors */
+    --profit-color: 142 76% 36%;
+    --loss-color: 0 93% 94%;
+    --warning-color: 38 100% 50%;
+    --info-color: 217 91% 60%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+  
+  h4 {
+    @apply text-xl lg:text-2xl;
+  }
+  
+  h5 {
+    @apply text-lg lg:text-xl;
+  }
+  
+  h6 {
+    @apply text-base lg:text-lg;
+  }
+}
+
+@layer components {
+  /* Financial metric styles */
+  .metric-positive {
+    @apply text-profit font-medium;
+  }
+  
+  .metric-negative {
+    @apply text-loss font-medium;
+  }
+  
+  .metric-neutral {
+    @apply text-muted-foreground font-medium;
+  }
+  
+  .metric-warning {
+    @apply text-warning font-medium;
+  }
+  
+  /* Card styles */
+  .card-gradient {
+    @apply bg-gradient-to-br from-background to-muted/30 border border-border/50;
+  }
+  
+  .card-financial {
+    @apply bg-gradient-financial text-white border-0 shadow-lg;
+  }
+  
+  .card-success {
+    @apply bg-gradient-success text-white border-0 shadow-lg;
+  }
+  
+  .card-warning {
+    @apply bg-gradient-warning text-white border-0 shadow-lg;
+  }
+  
+  /* Credit card styles */
+  .credit-card {
+    @apply relative overflow-hidden rounded-xl p-6 text-white shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .credit-card.visa {
+    background: linear-gradient(135deg, #1a1f71 0%, #2d3436 100%);
+  }
+  
+  .credit-card.mastercard {
+    background: linear-gradient(135deg, #eb001b 0%, #ff6b35 100%);
+  }
+  
+  .credit-card.amex {
+    background: linear-gradient(135deg, #006fcf 0%, #0984e3 100%);
+  }
+  
+  .credit-card.rupay {
+    background: linear-gradient(135deg, #00a650 0%, #00cec9 100%);
+  }
+  
+  .credit-card::before {
+    content: '';
+    @apply absolute inset-0 bg-black/10 backdrop-blur-sm;
+  }
+  
+  .credit-card > * {
+    @apply relative z-10;
+  }
+  
+  /* Status indicators */
+  .status-active {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-profit/10 text-profit border border-profit/20;
+  }
+  
+  .status-inactive {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border;
+  }
+  
+  .status-overdue {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-loss/10 text-loss border border-loss/20;
+  }
+  
+  .status-warning {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-warning/10 text-warning border border-warning/20;
+  }
+  
+  /* Priority indicators */
+  .priority-low {
+    @apply text-muted-foreground;
+  }
+  
+  .priority-medium {
+    @apply text-info;
+  }
+  
+  .priority-high {
+    @apply text-warning;
+  }
+  
+  .priority-critical {
+    @apply text-loss font-semibold;
+  }
+  
+  /* Animation utilities */
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+  
+  /* Glass morphism */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-white/10;
+  }
+  
+  /* Container layouts */
+  .dashboard-grid {
+    @apply grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  .metrics-grid {
+    @apply grid gap-4 grid-cols-2 md:grid-cols-4;
+  }
+  
+  /* Scrollbar styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted)) transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted));
+    border-radius: 3px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground));
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes for responsive design */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent;
+  }
+  
+  .border-gradient {
+    border-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.1)) 1;
+  }
 }
